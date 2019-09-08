@@ -12,13 +12,11 @@ class Vampire {
   addOffspring(vampire) {
     this.offspring.push(vampire);
     vampire.creator = this;
-
   }
 
   // Returns the total number of vampires created by that vampire
   get numberOfOffspring() {
     return this.offspring.length;
-
   }
 
   // Returns the number of vampires away from the original vampire this vampire is
@@ -33,15 +31,11 @@ class Vampire {
     }
 
     return numberOfPeople;
-
   }
 
   // Returns true if this vampire is more senior than the other vampire. (Who is closer to the original vampire)
   isMoreSeniorThan(vampire) {
-
     return (this.numberOfVampiresFromOriginal > vampire.numberOfVampiresFromOriginal ? false : true);
-
-
   }
 
   /** Tree traversal methods **/
@@ -52,12 +46,19 @@ class Vampire {
       return this;
     } else {
       if (this.offspring) {
+
         for (let child of this.offspring) {
           let vamp = child.vampireWithName(name);
           if (vamp) {
             return vamp;
           }
         }
+        // this.offspring.forEach(child => {
+        //   let vamp = child.vampireWithName(name);
+        //   if (vamp) {
+        //     return vamp;
+        //   }
+        // });
       } else {
         return null;
       }
@@ -76,7 +77,6 @@ class Vampire {
       total += child.totalDescendents;
     }
     return total;
-
   }
 
   // Returns an array of all the vampires that were converted after 1980
@@ -93,7 +93,6 @@ class Vampire {
     }
 
     return millenialVamps;
-
   }
 
   /** Stretch **/
@@ -104,47 +103,41 @@ class Vampire {
   // * when comparing Ansel and Sarah, Ansel is the closest common anscestor.
   // * when comparing Ansel and Andrew, Ansel is the closest common anscestor.
   closestCommonAncestor(vampire) {
-
-
-
-
-    // const check = (young, old) => {
-    //   while (old.creator === young.creator) {
-    //     young = young.creator;
-    //   }
-    //   let sameLevelCreator = old.creator;
-    //   if (young.creator === old.creator)
-    //     return old.creator;
-    //   else {
-
-
-    //   }
-
-
-    // };
-
-
-    // if (this.creator === vampire.creator) {
-    //   return this.creator;
-    // } else {
-    //   let a = this.numberOfVampiresFromOriginal; // 8
-    //   let b = vampire.numberOfVampiresFromOriginal; // 7
-    //   return (a > b) ? check(this, vampire) : check(vampire, this);
-
-    // }
-
-
-
-
-
+    if (this === vampire) {
+      return this;
+    } else if (this.creator === vampire) {
+      return vampire;
+    } else if (vampire.creator === this) {
+      return this;
+    } else if (this.isMoreSeniorThan(vampire)) {
+      return vampire.creator.closestCommonAncestor(this);
+    } else if (vampire.isMoreSeniorThan(this)) {
+      return this.creator.closestCommonAncestor(vampire);
+    }
 
 
   }
-
-
-
 }
 
 
 module.exports = Vampire;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
